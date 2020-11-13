@@ -1,4 +1,4 @@
-package me.onyxiansoul.playerfalleventlib;
+package com.gmail.onyxiansoul.playerfalleventlib;
 
 import java.util.List;
 import org.bukkit.Location;
