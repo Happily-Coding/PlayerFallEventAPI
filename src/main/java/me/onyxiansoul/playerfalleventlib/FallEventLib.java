@@ -1,4 +1,4 @@
-package me.onyxiansoul.falleventlib;
+package me.onyxiansoul.playerfalleventlib;
 
 import org.bukkit.plugin.Plugin;
 

@@ -1,4 +1,4 @@
-package me.onyxiansoul.falleventlib;
+package me.onyxiansoul.playerfalleventlib;
 
 import java.util.List;
 import org.bukkit.Location;

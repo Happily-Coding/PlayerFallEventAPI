@@ -1,4 +1,4 @@
-package me.onyxiansoul.falleventlib;
+package me.onyxiansoul.playerfalleventlib;
 
 import java.util.ArrayList;
 import java.util.HashMap;
