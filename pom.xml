@@ -3,9 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gmail.onyxiansoul</groupId>
     <artifactId>PlayerFallEventLib</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <dependencies>
+        <!-- Spigot -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
