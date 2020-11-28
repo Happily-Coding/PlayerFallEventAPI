@@ -1,34 +1,33 @@
-package com.gmail.onyxiansoul.playerfalleventlib;
+package com.gmail.onyxiansoul.playerfalleventapi;
 
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 
-/** An event fired when the player lands from a fall*/
-public class PlayerFallEvent extends PlayerEvent {
+/** An event fired when the starts falling */
+public class PlayerStartFallEvent extends PlayerEvent {
     
     /**All the registered event handlers for the fall events*/
     private static final HandlerList handlers = new HandlerList();
 
-    /**The original location, plus any other locations visited during the player fall*/
-    private final List<Location> locationsHistory;
+    /**The last location of the player before detecting the fall*/
+    private final Location locationBeforeStart;
     
     /**Creates a fall event
      @param player = The player that has fallen
-     @param locationsHistory = The locations the player has traveled before finishing the fall, incluiding the location where the fall started. In chronological order.*/
-    PlayerFallEvent(@NotNull Player player, @NotNull List<Location> locationsHistory) {
+     @param locationBeforeStart = The last location of the player before detecting the fall*/
+    PlayerStartFallEvent(@NotNull Player player, Location locationBeforeStart) {
         super(player);
-        this.locationsHistory = locationsHistory;
+        this.locationBeforeStart = locationBeforeStart;
     }
 
-    /**Get the a list of all the locations the player traveled during the fall
-     @return The list of all the locations,including the location before he started falling, in chronological order.*/
+    /**Get The last location of the player before detecting the fall
+     @return The last location of the player before detecting the fall.*/
     @NotNull
-    public List<Location> getLocationsHistory() {
-        return locationsHistory;
+    public Location getLocationsBeforeStart() {
+        return locationBeforeStart;
     }
     
     /** Get all the registered event handlers for this event
@@ -45,4 +44,5 @@ public class PlayerFallEvent extends PlayerEvent {
     public static HandlerList getHandlerList() {
         return handlers;
     }
+    
 }

@@ -1,0 +1,17 @@
+#Hey there! This is the config file of PlayerFallEventAPI. Please configure it to your hearts content :)
+#Please remember, this is an API, it doesn't modify gameplay at all unless you install a plugin that uses it, such as PlayerFallPotionEffects.
+
+#If you get any errors or something doesn't work as expected, please check the console and please make sure there aren't any problems with the yaml formatting
+#You can check YAML formatting with this page https://yaml-online-parser.appspot.com/
+#If the plugin is still acting up, please reach out at the plugin discussion and I'll give you a hand :)
+#TODO: add the plugin discussion link here.
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Should the API be activated?
+enabled: true
+
+#How frequently should we check for possible player falls? (in ticks) (a lower number will trigger fall events faster but generate a greater resource consumption).
+MONITORING_FREQUENCY: 3
+
+#Should bStats remain enabled? bStats sends annonymous data about the server, helping us feel motivated and make more informed decisions about the plugin's future. You can find all the information collected here : https://bstats.org/plugin/bukkit/PlayerFallEventAPI/9447
+bStats: true

@@ -1,2 +1,3 @@
-# PlayerFallEventLib
-A library for spigot plugins, which adds a 'player fall event' they can listen to, to react to any players that just fell.
+# PlayerFallEventAPI
+A developer API for spigot plugins.
+When installed, it detects player falls, and calls the following event types: PlayerStartFallEvent & PlayerFinishFallEvent

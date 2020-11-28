@@ -2,15 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gmail.onyxiansoul</groupId>
-    <artifactId>PlayerFallEventLib</artifactId>
-    <version>1.0.1</version>
+    <artifactId>PlayerFallEventAPI</artifactId>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
+    <name>PlayerFallEventAPI</name>
+
+    <repositories>
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public</url>
+         </repository>
+    </repositories>
+    
     <dependencies>
         <!-- Spigot -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.2-R0.1-SNAPSHOT</version>
+            <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
@@ -18,6 +27,14 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- https://bstats.org/getting-started/include-metrics -->
+        <dependency>
+          <groupId>org.bstats</groupId>
+          <artifactId>bstats-bukkit</artifactId>
+          <version>1.7</version>
+          <scope>compile</scope>
         </dependency>
     </dependencies>
     <properties>
@@ -25,5 +42,48 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    <name>PlayerFallEventLib</name>
+    
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.1.0</version>
+          <configuration>
+
+            <!-- Prevent META-INF folder from being included. -->
+            <filters>
+                <filter>
+                <artifact>*:*</artifact>
+                <excludes>
+                    <exclude>META-INF/**</exclude>
+                </excludes>
+                </filter>
+            </filters>
+            <relocations>
+              <relocation>
+                <pattern>org.bstats</pattern>
+                <!-- Relocate the bstats shaded inside this plugin -->
+                <shadedPattern>com.gmail.onyxiansoul.playerfalleventapi.shaded.org.bstats</shadedPattern>
+              </relocation>
+            </relocations>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                  <!--Prevent an unnecesairy step during the compilation-->
+                  <createDependencyReducedPom>false</createDependencyReducedPom>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+    
+
+    
 </project>
