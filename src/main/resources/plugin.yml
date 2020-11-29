@@ -4,4 +4,4 @@ author: OnyxianSoul
 version: 1.0.3
 api-version: 1.13
 description: "A developer API. When installed, it detects player falls, and calls the following event types: PlayerStartFallEvent & PlayerFinishFallEvent"
-#website: TODO: add plugin discussion link once posted
+website: https://www.spigotmc.org/threads/playerfalleventapi.475044/
