@@ -4,10 +4,11 @@
     <groupId>com.gmail.onyxiansoul</groupId>
     <artifactId>PlayerFallEventAPI</artifactId>
     <version>1.1.0</version>
-    <packaging>jar</packaging>
-    <name>${project.groupId}:${project.artifactId}</name>
-    <description>An Spigot Plugin API that adds PlayerFallEvents</description>
+    <name>${project.artifactId}</name>
+    <description>An Spigot Plugin meant for developers. It detects player falls, and calls events of type: PlayerStartFallEvent and PlayerFinishFallEvent</description>
     <url>https://www.spigotmc.org/resources/playerfalleventapi.86251/</url>
+    <packaging>jar</packaging>
+    
     <licenses>
       <license>
         <name>MIT License</name>
@@ -16,8 +17,9 @@
     </licenses>
     <developers>
       <developer>
-        <name>Onyxian Soul</name>
+        <name>OnyxianSoul</name>
         <email>onyxiansoul@gmail.com</email>
+        <url>https://www.spigotmc.org/resources/authors/onyxiansoul.667504/</url>
       </developer>
   </developers>
 
@@ -63,6 +65,12 @@
     </properties>
     
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory> <!-- (your resources folder location) -->
+                <filtering>true</filtering> <!-- this is the important part, it's what replaces, filters, all placeholders in the resources folder (such as ${project.version} in plugin.yml) -->
+             </resource>
+        </resources>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
