@@ -1,7 +1,7 @@
 name: PlayerFallEventAPI
 main: com.gmail.onyxiansoul.playerfalleventapi.PlayerFallEventAPI
 author: OnyxianSoul
-version: 1.0.5
+version: ${project.version}
 api-version: 1.13
 description: "A developer API. When installed, it detects player falls, and calls the following event types: PlayerStartFallEvent & PlayerFinishFallEvent"
 website: https://www.spigotmc.org/threads/playerfalleventapi.475044/
