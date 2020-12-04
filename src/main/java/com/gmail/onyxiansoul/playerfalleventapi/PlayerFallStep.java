@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**A snapshot of the fall process, taken during a player fall.*/
-class PlayerFallStep {
+public class PlayerFallStep {
     
     private final Location location;
     private final double fallSpeed;
