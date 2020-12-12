@@ -1,4 +1,4 @@
-package com.gmail.onyxiansoul.playerfalleventapi;
+package com.github.onyxiansoul.playerfalleventapi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
