@@ -1,6 +1,7 @@
 package com.gmail.onyxiansoul.playerfalleventapi;
 
 import java.util.List;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
@@ -13,12 +14,12 @@ public class PlayerFinishFallEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
 
     /**The original location, plus any other locations visited during the player fall*/
-    private final List<PlayerFallStep> locationsHistory;
+    private final List<Location> locationsHistory;
     
     /**Creates a fall event
      @param player = The player that has fallen
      @param locationsHistory = The locations the player has traveled before finishing the fall, including the location where the fall started. In chronological order.*/
-    PlayerFinishFallEvent(@NotNull Player player, @NotNull List<PlayerFallStep> locationsHistory) {
+    PlayerFinishFallEvent(@NotNull Player player, @NotNull List<Location> locationsHistory) {
         super(player);
         this.locationsHistory = locationsHistory;
     }
@@ -26,7 +27,7 @@ public class PlayerFinishFallEvent extends PlayerEvent {
     /**Get the a list of all the locations the player traveled during the fall
      @return The list of all the locations,including the location before he started falling, in chronological order.*/
     @NotNull
-    public List<PlayerFallStep> getFallHistory() {
+    public List<Location> getLocationsHistory() {
         return locationsHistory;
     }
     

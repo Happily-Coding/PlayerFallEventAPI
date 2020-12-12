@@ -15,10 +15,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**Tracks player movement, and detects the start of the falls, the fall itself, and the end of the fall, calling the PlayerStartFallEvent and PlayerFinishFallEvent.*/
+/**The movement event listener in charge of tracking the start of the falls, the fall itself, and calling the fall event at the end of the fall.*/
 public final class FallEventCaller extends BukkitRunnable implements Listener{
-    final HashMap<UUID, List<PlayerFallStep>> fallSnapshotsPerPlayer = new HashMap<>();
-    final HashMap<UUID, Location> lastLocationPerPlayer = new HashMap<>();
+        
+    final HashMap<UUID, List<Location>> playerLocations = new HashMap<>();
     final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
     
     /**Tracks player disconnections in order to prevent memory leaks caused by an ever-expanding HashMap of anyone who disconnects mid-fall
@@ -26,8 +26,7 @@ public final class FallEventCaller extends BukkitRunnable implements Listener{
     @EventHandler
     public void onPlayerDisconect(PlayerQuitEvent playerQuitEvent){
         UUID uuidToRemove= playerQuitEvent.getPlayer().getUniqueId();
-        fallSnapshotsPerPlayer.remove(uuidToRemove);
-        lastLocationPerPlayer.remove(uuidToRemove);
+        playerLocations.remove(uuidToRemove);
     }
     
     /**Starts tracking any players who join
@@ -36,49 +35,46 @@ public final class FallEventCaller extends BukkitRunnable implements Listener{
     public void onPlayerJoin (PlayerJoinEvent playerJoinEvent){
         Player player = playerJoinEvent.getPlayer();
         UUID uuidToAdd = player.getUniqueId();
-        lastLocationPerPlayer.put(uuidToAdd, player.getLocation());
+        List<Location> locations = new ArrayList<>();
+        locations.add(player.getLocation());
+        playerLocations.put(uuidToAdd, locations);
     }
     
     /**Listens to player movement to check if there is a fall start or finish, and fires the corresponding event*/
     @Override
     public void run (){
-        
-        for(Entry<UUID, Location> entry: lastLocationPerPlayer.entrySet()){
-            UUID uuid = entry.getKey();
-            Player player = Bukkit.getPlayer(uuid);
-            //Get the last location for a player
-            Location lastLocationForPlayer = entry.getValue();
-            //Get the current location of the player
-            Location currentPlayerLocation = player.getLocation();
-            //update the last location to the current location
-            entry.setValue(currentPlayerLocation);
+        for(Entry<UUID, List<Location>> entry: playerLocations.entrySet()){
+            Player player = Bukkit.getPlayer(entry.getKey());
+            Location playerLoc = player.getLocation();
+            List<Location> locations = entry.getValue();
+            int lastIndex = locations.size()-1;
             
             //if this tick the player is falling, add the location as part of his fall
-            if(currentPlayerLocation.getY() < lastLocationForPlayer.getY()){
-                //Get the fall history for the player
-                List<PlayerFallStep> fallSnapshotsForPlayer = fallSnapshotsPerPlayer.get(uuid);
-                
-                //If the player has just started falling fire a startFallingEvent and start a new fall history.
-                if(fallSnapshotsForPlayer == null){
-                    PlayerStartFallEvent playerStartFallEvent = new PlayerStartFallEvent(player, lastLocationForPlayer);
+            if(playerLoc.getY() < locations.get(lastIndex).getY()){
+                //If the player has just started falling fire a startFallingEvent
+                if(lastIndex == 0){
+                    PlayerStartFallEvent playerStartFallEvent = new PlayerStartFallEvent(player,locations.get(lastIndex));
                     pluginManager.callEvent(playerStartFallEvent);
-                    fallSnapshotsForPlayer = new ArrayList<>();
                 }
                 
-                //Add the current fall step, to the fall history.
-                fallSnapshotsForPlayer.add(new PlayerFallStep(player)); 
-                
-                //Save the history in fallSnapshostPerPlayer
-                fallSnapshotsPerPlayer.replace(uuid, fallSnapshotsForPlayer);
-
+                //Regardless, add the fall location, so its available whenever the finish fall event is available.
+                locations.add(playerLoc); 
+                entry.setValue(locations);
             }
             //if this tick the player hasn't fallen
             else{
-                //If in the previous check the player was falling, then it means he landed. Fire a playerFinishFallEvent.
-                if(fallSnapshotsPerPlayer.containsKey(uuid)){
-                     PlayerFinishFallEvent playerFallEvent = new PlayerFinishFallEvent(player,fallSnapshotsPerPlayer.get(uuid));
-                     pluginManager.callEvent(playerFallEvent);
-                     fallSnapshotsPerPlayer.remove(uuid);
+                //If he wasn't falling, ignore him, and update his last location
+                if(lastIndex == 0){
+                    locations.set(0, playerLoc); //do i need to call to update entry?
+                }
+                
+                //If he was falling, it means he landed. fire playerFinishFallEvent
+                else{
+                    PlayerFinishFallEvent playerFallEvent = new PlayerFinishFallEvent(player,locations);
+                    pluginManager.callEvent(playerFallEvent);
+                    List<Location> newLocations = new ArrayList<>();
+                    newLocations.add(playerLoc);
+                    entry.setValue(newLocations);
                 }
             }
         }

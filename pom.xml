@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.gmail.onyxiansoul</groupId>
     <artifactId>PlayerFallEventAPI</artifactId>
-    <version>1.1.0</version>
+    <version>1.0.6</version>
     <name>${project.artifactId}</name>
     <description>An Spigot Plugin meant for developers. It detects player falls, and calls events of type: PlayerStartFallEvent and PlayerFinishFallEvent</description>
     <url>https://www.spigotmc.org/resources/playerfalleventapi.86251/</url>

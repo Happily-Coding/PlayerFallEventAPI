@@ -10,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlayerFallEventAPI extends JavaPlugin{
     private ConsoleCommandSender consoleSender;
     
-    
     /**Make the server start firing fall events, if it's not firing them already.
      */
     @Override
@@ -47,11 +46,4 @@ public class PlayerFallEventAPI extends JavaPlugin{
         fallEventCaller.runTaskTimer(this, 0, monitoringFrequency);
         getServer().getPluginManager().registerEvents(fallEventCaller, this);
     }
-    
-
-    
-    
-        
-    
-    
 }

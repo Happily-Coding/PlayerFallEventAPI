@@ -1,10 +1,10 @@
 #Hey there! This is the config file of PlayerFallEventAPI. Please configure it to your hearts content :)
-#Please remember, this is an API, it doesn't modify gameplay at all unless you install a plugin that uses it, such as PlayerFallPotionEffects.
+#Please remember, this is an API, it doesn't modify gameplay at all unless you install a plugin that uses it, such as ExplosionKnockdown
 
 #If you get any errors or something doesn't work as expected, please check the console and please make sure there aren't any problems with the yaml formatting
 #You can check YAML formatting with this page https://yaml-online-parser.appspot.com/
 #If the plugin is still acting up, please reach out at the plugin discussion and I'll give you a hand :)
-#https://www.spigotmc.org/threads/playerfalleventapi.475044/
+#${project.url}
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #Should the API be activated?
