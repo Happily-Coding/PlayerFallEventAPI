@@ -5,7 +5,7 @@
     <artifactId>PlayerFallEventAPI</artifactId>
     <version>1.0.6</version>
     <name>${project.artifactId}</name>
-    <description>An Spigot Plugin meant for developers. It detects player falls, and calls events of type: PlayerStartFallEvent and PlayerFinishFallEvent</description>
+    <description>An Spigot Plugin meant for developers. It detects player falls, and calls events of type PlayerStartFallEvent and PlayerFinishFallEvent</description>
     <url>https://www.spigotmc.org/resources/playerfalleventapi.86251/</url>
     <packaging>jar</packaging>
     
@@ -58,26 +58,49 @@
           <scope>compile</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
     
     <build>
+        <!-- Allow the usage of maven placeholders, such as ${project.version} in all the resources (plugin.yml, config.yml, etc)  -->
         <resources>
             <resource>
-                <directory>src/main/resources</directory> <!-- (your resources folder location) -->
-                <filtering>true</filtering> <!-- this is the important part, it's what replaces, filters, all placeholders in the resources folder (such as ${project.version} in plugin.yml) -->
+                <directory>src/main/resources</directory> 
+                <filtering>true</filtering>
              </resource>
         </resources>
+        
+      <!--Create ${artifactId.lowercase} placeholder-->  
       <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+             <execution>
+              <id>create-artifactId.lowercase</id>
+              <phase>initialize</phase>
+              <goals>
+               <goal>regex-property</goal>
+              </goals>
+              <configuration>
+               <name>artifactId.lowercase</name>
+               <value>${project.artifactId}</value>
+               <regex>${project.artifactId}</regex>
+               <replacement>${project.artifactId}</replacement>
+               <toLowerCase>true</toLowerCase>
+               <failIfNoMatch>false</failIfNoMatch>
+               <fileSet/>
+               <source/>
+              </configuration>
+             </execution>
+            </executions>
+        </plugin>
+        
+        <!--Shade things inside the jar, required for it to work, for example bStats.-->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
           <version>3.1.0</version>
           <configuration>
-
             <!-- Prevent META-INF folder from being included. -->
             <filters>
                 <filter>
@@ -87,22 +110,23 @@
                 </excludes>
                 </filter>
             </filters>
+            <!-- Relocate the resources to prevent clashing with other plugins.-->
             <relocations>
               <relocation>
                 <pattern>org.bstats</pattern>
-                <!-- Relocate the bstats shaded inside this plugin -->
-                <shadedPattern>com.gmail.onyxiansoul.playerfalleventapi.shaded.org.bstats</shadedPattern>
+                <shadedPattern>com.gmail.onyxiansoul.playerfallpotioneffects.shaded.org.bstats</shadedPattern>
               </relocation>
             </relocations>
           </configuration>
           <executions>
             <execution>
+              <!--Make the shading happen during maven package-->
               <phase>package</phase>
               <goals>
                 <goal>shade</goal>
               </goals>
+              <!--Prevent an unnecesairy step during the compilation-->
               <configuration>
-                  <!--Prevent an unnecesairy step during the compilation-->
                   <createDependencyReducedPom>false</createDependencyReducedPom>
               </configuration>
             </execution>
@@ -110,6 +134,13 @@
         </plugin>
       </plugins>
     </build>
+    
+    <!--Assign enviromental variables.-->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     
 
     

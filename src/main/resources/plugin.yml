@@ -1,7 +1,7 @@
 name: ${project.artifactId}
-main: ${project.groupId}:${project.artifactId}
-author: ${project.developers[0].name}
+main: ${project.groupId}.${artifactId.lowercase}.${project.artifactId}
+author: OnyxianSoul
 version: ${project.version}
 api-version: 1.13
-description: ${project.description}
+description: ${description}
 website: ${project.url}
